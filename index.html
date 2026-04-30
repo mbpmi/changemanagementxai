@@ -136,6 +136,26 @@
     font-size: 11px;
     color: var(--text-3);
     line-height: 1.4;
+    margin-bottom: 6px;
+  }
+
+  .card-source {
+    font-size: 10px;
+    color: var(--text-3);
+    border-top: 1px solid var(--border);
+    padding-top: 6px;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  .card-source span {
+    display: inline-block;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin: 2px 2px 0 0;
+    white-space: nowrap;
   }
 
   .stripe-purple { border-left-color: var(--purple); }
@@ -365,13 +385,34 @@ const nodes = {
 
 let activeId = null;
 
+const friendlyNames = {
+  "Adkar_Model.pdf": "ADKAR Model",
+  "ReferenceAIAdoptionADKAR02_22_25.pdf": "AI Adoption → ADKAR",
+  "ReferenceAIAdoptionABCs02_22_25.pdf": "AI Adoption → ABCs",
+  "CaseStudyNorPineCMPAIEN02.pdf": "NorPine Case Study",
+  "HandoutProsciMethodologyEN01.pdf": "Prosci Methodology",
+  "PCTAssessmentFillablev11.pdf": "PCT Assessment",
+  "AI_Integration_Framework_One_Page_Su.pdf": "AI Integration Framework",
+  "Best_Practice_Insights_Summary.pdf": "Best Practice Insights",
+  "2_1__Ten_Job_Aspects.pdf": "10 Aspects of Change",
+  "4__CatalystEvaluatingAI.pdf": "Catalyst: Evaluating AI",
+  "Catalyst10WorkplaceConditionsforIndividualAIAdoption.pdf": "Catalyst: 10 Conditions",
+  "CatalystTheHumanSideofAI2_0_copy.pdf": "Catalyst: Human Side of AI"
+};
+
 function buildSection(containerId, items) {
   const el = document.getElementById(containerId);
   items.forEach(n => {
     const card = document.createElement("div");
     card.className = `card ${n.stripe}`;
     card.id = `card-${n.id}`;
-    card.innerHTML = `<div class="card-title">${n.title}</div><div class="card-sub">${n.sub}</div>`;
+    const sourceTags = (n.links || []).map(l =>
+      `<span>${friendlyNames[l] || l}</span>`
+    ).join("");
+    card.innerHTML = `
+      <div class="card-title">${n.title}</div>
+      <div class="card-sub">${n.sub}</div>
+      <div class="card-source">${sourceTags}</div>`;
     card.addEventListener("click", () => toggle(n));
     el.appendChild(card);
   });
@@ -397,7 +438,7 @@ function toggle(n) {
   (n.links || []).forEach(l => {
     const pill = document.createElement("span");
     pill.className = "pill";
-    pill.textContent = l;
+    pill.textContent = friendlyNames[l] || l;
     pillsEl.appendChild(pill);
   });
   panel.classList.add("open");
