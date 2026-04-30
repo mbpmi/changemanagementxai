@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Change Management & AI – Knowledge Map</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --border: rgba(40,36,28,0.12);
+    --border-strong: rgba(40,36,28,0.25);
+    --text: #1C1A16;
+    --text-2: #6B6659;
+    --text-3: #9C9384;
+    --purple: #6B5CE7;
+    --purple-bg: #EEE9FF;
+    --teal: #0F8F6B;
+    --teal-bg: #E0F5EE;
+    --coral: #C94F2C;
+    --coral-bg: #FCEEE9;
+    --amber: #A86B00;
+    --amber-bg: #FFF3D9;
+    --blue: #1A6BB5;
+    --blue-bg: #E6F1FB;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  header {
+    max-width: 960px;
+    margin: 0 auto 2.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-3);
+  }
+
+  .legend {
+    max-width: 960px;
+    margin: 0 auto 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .leg {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-2);
+  }
+
+  .leg-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .section-wrap {
+    max-width: 960px;
+    margin: 0 auto 2rem;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 10px;
+  }
+
+  .grid { display: grid; gap: 8px; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: border-color .15s, box-shadow .15s, transform .1s;
+    border-left-width: 3px;
+    box-shadow: var(--shadow);
+  }
+
+  .card:hover {
+    border-color: var(--border-strong);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+  }
+
+  .card.active {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+  }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+
+  .card-sub {
+    font-size: 11px;
+    color: var(--text-3);
+    line-height: 1.4;
+  }
+
+  .stripe-purple { border-left-color: var(--purple); }
+  .stripe-teal   { border-left-color: var(--teal); }
+  .stripe-coral  { border-left-color: var(--coral); }
+  .stripe-amber  { border-left-color: var(--amber); }
+  .stripe-blue   { border-left-color: var(--blue); }
+
+  .card.active.stripe-purple { background: var(--purple-bg); border-color: var(--purple); }
+  .card.active.stripe-teal   { background: var(--teal-bg);   border-color: var(--teal); }
+  .card.active.stripe-coral  { background: var(--coral-bg);  border-color: var(--coral); }
+  .card.active.stripe-amber  { background: var(--amber-bg);  border-color: var(--amber); }
+  .card.active.stripe-blue   { background: var(--blue-bg);   border-color: var(--blue); }
+
+  .detail {
+    max-width: 960px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    display: none;
+    box-shadow: var(--shadow);
+    animation: fadeUp .2s ease;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail.open { display: block; }
+
+  .detail-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .detail-body {
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  .source-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-3);
+    margin-bottom: 8px;
+  }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .pill {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    color: var(--text-2);
+    background: var(--surface2);
+    cursor: default;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 700px) {
+    .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 420px) {
+    .grid-3, .grid-4, .grid-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Change Management &amp; AI</h1>
+  <span class="subtitle">Knowledge map — click any card to expand</span>
+</header>
+
+<div class="legend">
+  <div class="leg"><div class="leg-dot" style="background:var(--purple)"></div> Frameworks &amp; models</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--teal)"></div> AI adoption</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--coral)"></div> People &amp; resistance</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--amber)"></div> Measurement &amp; outcomes</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--blue)"></div> Roles &amp; sponsorship</div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-label">Core frameworks &amp; models</div>
+  <div class="grid grid-3" id="frameworks"></div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-label">AI adoption dynamics</div>
+  <div class="grid grid-3" id="ai-adoption"></div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-label">People, resistance &amp; culture</div>
+  <div class="grid grid-3" id="people"></div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-label">Measurement &amp; outcomes</div>
+  <div class="grid grid-4" id="measurement"></div>
+</div>
+
+<div class="section-wrap">
+  <div class="section-label">Roles &amp; sponsorship</div>
+  <div class="grid grid-3" id="roles"></div>
+</div>
+
+<div class="section-wrap">
+  <div class="detail" id="detail">
+    <div class="detail-title" id="detail-title"></div>
+    <div class="detail-body" id="detail-body"></div>
+    <div class="source-label">Source documents</div>
+    <div class="pills" id="detail-pills"></div>
+  </div>
+</div>
+
+<script>
+const nodes = {
+  frameworks: [
+    { id:"adkar", title:"ADKAR model", sub:"5-element individual change model", stripe:"stripe-purple",
+      body:"The backbone of Prosci's approach: Awareness, Desire, Knowledge, Ability, Reinforcement. Each element must be achieved in sequence. Applied to AI adoption, it maps precisely — frontline employees may have Awareness of AI but lack Desire, while Knowledge gaps (especially prompt engineering) are the most cited barrier. Reinforcement is often neglected post-launch.",
+      links:["Adkar_Model.pdf","ReferenceAIAdoptionADKAR02_22_25.pdf","CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"prosci3phase", title:"Prosci 3-phase methodology", sub:"Prepare → Manage → Sustain", stripe:"stripe-purple",
+      body:"Phase 1 (Prepare Approach): Define success, impact, and the change management strategy. Phase 2 (Manage Change): Execute plans for sponsors, people managers, communications, and training. Phase 3 (Sustain Outcomes): Review performance, activate sustainment, and transfer ownership. The NorPine case study traces all three phases for an AI deployment.",
+      links:["HandoutProsciMethodologyEN01.pdf","CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"pct", title:"Prosci Change Triangle (PCT)", sub:"Success, Sponsorship, PM, CM", stripe:"stripe-purple",
+      body:"A four-corner model: a shared definition of Success at the top, with Leadership/Sponsorship, Project Management, and Change Management as the three supporting elements. Used as a health check throughout a project lifecycle. Scores 10–19 = high risk; 25–30 = strength. In the NorPine case, initial scores were all low (12–19), rising to 26–29 post-implementation.",
+      links:["PCTAssessmentFillablev11.pdf","CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"ai-integration", title:"AI Integration Framework", sub:"My Work / With Me / For Me", stripe:"stripe-purple",
+      body:"Prosci's task-level framework for evaluating AI fit. 'My Work' = human-exclusive tasks requiring empathy, judgment, ethics. 'For Me Work' = repetitive or data-heavy tasks AI can automate fully. 'With Me Work' = tasks where AI assists but humans remain in control (drafting, analyzing, brainstorming). Shifts the narrative from replacement fear to intentional design.",
+      links:["AI_Integration_Framework_One_Page_Su.pdf"] },
+    { id:"abc", title:"ABC sponsorship model", sub:"Active, Build coalition, Communicate", stripe:"stripe-purple",
+      body:"Three critical sponsor behaviors for AI adoption. A – Active and visible participation: leaders model AI use publicly, attend training, celebrate early adopters. B – Build a coalition: enlist mid-level managers, team leaders, and subject-matter experts as change champions. C – Communicate support: clear, consistent messaging about why AI matters, data accuracy, ethical guardrails, and two-way feedback.",
+      links:["ReferenceAIAdoptionABCs02_22_25.pdf"] },
+    { id:"10aspects", title:"10 aspects of change impact", sub:"Processes, systems, roles, behaviors…", stripe:"stripe-purple",
+      body:"A structured checklist for defining what changes for impacted employees: 1) Processes, 2) Systems, 3) Tools, 4) Job roles, 5) Critical behaviors, 6) Mindsets/attitudes/beliefs, 7) Reporting structure, 8) Performance reviews, 9) Compensation, 10) Location. For AI deployments, aspects 1–6 are typically most affected. Used to calculate degree of change impact.",
+      links:["2_1__Ten_Job_Aspects.pdf"] },
+  ],
+  "ai-adoption": [
+    { id:"awareness-ai", title:"Awareness for AI adoption", sub:"Why the change matters", stripe:"stripe-teal",
+      body:"Executives have the deepest awareness of AI's strategic value (44% cite efficiency gains). Frontline employees first become aware through specific use cases — automation of repetitive tasks or creative writing support. Key barriers: inconsistent manager messaging, overemphasis on the tool rather than the purpose, and disparate communication channels that leave frontline workers behind.",
+      links:["ReferenceAIAdoptionADKAR02_22_25.pdf","ReferenceAIAdoptionABCs02_22_25.pdf"] },
+    { id:"desire-ai", title:"Desire for AI adoption", sub:"Motivation and willingness", stripe:"stripe-teal",
+      body:"Overall, employees voluntarily use AI (+0.20 on a required-to-choice scale). Executives show the strongest desire (+0.36). Frontline workers have specific motivational drivers — 27% use AI creatively for writing and brainstorming. The biggest threat to desire is fear of job displacement. Organizations that encourage experimentation score +1.45 vs. −0.16 for struggling ones.",
+      links:["ReferenceAIAdoptionADKAR02_22_25.pdf","CatalystTheHumanSideofAI2_0_copy.pdf"] },
+    { id:"knowledge-ai", title:"Knowledge for AI adoption", sub:"Skills, training, prompt engineering", stripe:"stripe-teal",
+      body:"User proficiency is the single biggest challenge in AI adoption (38% of responses). Prompt engineering is a particularly cited gap. Best outcomes occur when structured organizational training and self-directed exploration coexist. In struggling organizations, employees rely too much on figuring it out alone (+0.67 self-led), correlating with lower trust and value perception.",
+      links:["ReferenceAIAdoptionADKAR02_22_25.pdf","Catalyst10WorkplaceConditionsforIndividualAIAdoption.pdf"] },
+    { id:"ability-ai", title:"Ability for AI adoption", sub:"Practical, day-to-day application", stripe:"stripe-teal",
+      body:"94% of employees find AI easy to use, but frontline workers score lower (+0.78 vs executives' +1.19). Key barriers: integration issues (16% of challenges), data accuracy concerns (13%), limited system permissions for frontline staff, and inconsistent IT support. Knowledge-to-ability gap: employees may know how to use AI but lack time, permissions, or infrastructure to apply it.",
+      links:["ReferenceAIAdoptionADKAR02_22_25.pdf"] },
+    { id:"reinforcement-ai", title:"Reinforcement for AI adoption", sub:"Sustaining behavior change", stripe:"stripe-teal",
+      body:"In 'very smooth' implementations, leadership encouragement scores +1.45; in struggling ones, −0.11. Trust in AI grows with reinforcement, reaching +1.38 in top-performing organizations. Common gaps: leadership distraction after launch, lack of accountability, and failure to celebrate wins. Post go-live refresher training and AI usage metrics in performance reviews are key tactics.",
+      links:["ReferenceAIAdoptionADKAR02_22_25.pdf","CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"10conditions", title:"10 workplace conditions for AI", sub:"4 pillars that differentiate success", stripe:"stripe-teal",
+      body:"Pillar 1 – Leadership & Bold AI Vision: strong leadership support (+1.65), transformative scope, bottom-up experimentation. Pillar 2 – Change Management Excellence: balanced data controls, adaptive governance, workforce development. Pillar 3 – Transparency & Trust: high transparency in AI decisions (+1.29), feedback channels. Pillar 4 – Organizational Capabilities: democratized AI expertise (+1.00 vs −0.96), role-specific value propositions.",
+      links:["Catalyst10WorkplaceConditionsforIndividualAIAdoption.pdf","CatalystTheHumanSideofAI2_0_copy.pdf"] },
+  ],
+  people: [
+    { id:"resistance", title:"Resistance to change", sub:"Causes and responses", stripe:"stripe-coral",
+      body:"Most resistant groups: mid-level managers (39%), frontline employees (27%), senior managers (16%). Top reasons employees resist: lack of awareness, fear, role change, exclusion from the process. For AI specifically: job security concerns, doubts about data accuracy, and uncertainty about what proficiency looks like. Ineffective responses: mandating, threats, one-way communications.",
+      links:["Best_Practice_Insights_Summary.pdf","CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"trust", title:"AI trust gap", sub:"Executives vs frontline", stripe:"stripe-coral",
+      body:"Executives trust AI at +1.09; frontline workers at +0.33; in struggling organizations, frontline trust drops to −0.11. This gap is a key driver of uneven adoption. Transparency, experimentation opportunities, and direct sponsorship communication are the main levers for closing it. The NorPine case shows frontline support staff having high Awareness but low Desire — distrust of AI replacing personal service.",
+      links:["Catalyst10WorkplaceConditionsforIndividualAIAdoption.pdf","ReferenceAIAdoptionABCs02_22_25.pdf"] },
+    { id:"culture", title:"Organizational culture & readiness", sub:"AI-ready vs change-resistant", stripe:"stripe-coral",
+      body:"Successful AI implementations score +1.60 on 'organizational culture supports AI-driven change' vs −1.00 in struggling ones. Cultural readiness includes: openness to experimentation, psychological safety, belief that AI augments rather than replaces humans (+1.42). Cultural barriers: 'flavor of the month' perception, change saturation, and managers who don't personally model AI usage.",
+      links:["CatalystTheHumanSideofAI2_0_copy.pdf","Catalyst10WorkplaceConditionsforIndividualAIAdoption.pdf"] },
+    { id:"saturation", title:"Change saturation", sub:"Too many concurrent initiatives", stripe:"stripe-coral",
+      body:"When employees face multiple simultaneous change initiatives, adoption suffers. In the NorPine case, employees were 'feeling change saturated.' NorAI was one of many concurrent changes. The PCT score for Change Management is a leading indicator — low scores signal saturation risk. Tactics: prioritize initiatives, acknowledge saturation openly, and sequence deployments intentionally.",
+      links:["CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"mindsets", title:"Mindsets & attitudes toward AI", sub:"Beliefs, frames, and openness", stripe:"stripe-coral",
+      body:"One of the 10 job aspects most impacted by AI change. Shifting from fear of replacement to intentional design is central to the AI Integration Framework. The NorPine scenarios show passive resistance rooted in professional identity — believing personal relationships trump automation. Addressing mindsets requires connecting AI adoption to individual values, not just organizational benefits.",
+      links:["AI_Integration_Framework_One_Page_Su.pdf","CaseStudyNorPineCMPAIEN02.pdf","2_1__Ten_Job_Aspects.pdf"] },
+    { id:"role-diff", title:"Role-based differences", sub:"Executives, managers, frontline", stripe:"stripe-coral",
+      body:"Executives: use AI for efficiency (44%) and strategic outcomes (37%). Team leaders: emphasize coordination (14%), bridge executive directives and frontline execution. Frontline: balance efficiency (29%) and creativity/innovation (27%), have the least tool autonomy and organizational encouragement. Each group needs role-specific communication, training, metrics, and success stories.",
+      links:["4__CatalystEvaluatingAI.pdf","Catalyst10WorkplaceConditionsforIndividualAIAdoption.pdf","ReferenceAIAdoptionADKAR02_22_25.pdf"] },
+  ],
+  measurement: [
+    { id:"metrics", title:"AI evaluation metrics", sub:"Multi-dimensional measurement", stripe:"stripe-amber",
+      body:"Organizations measuring quality, productivity, and cost reduction simultaneously have a 35.3% success rate — 2.7× higher than those using just one dimension (13.1%). Successful implementers use 2.3 metric types vs 1.8 for struggling ones. Key categories: time efficiency (28%), productivity (15%), quality improvement (14%), customer impact (10%), employee experience (8%).",
+      links:["4__CatalystEvaluatingAI.pdf"] },
+    { id:"role-metrics", title:"Role-specific evaluation", sub:"Different metrics for different levels", stripe:"stripe-amber",
+      body:"Executives focus 2.6× more on strategic outcomes (37%) than individual contributors (14%). Team leaders prioritize team coordination (14%) at nearly twice the executive rate (8%). Individual contributors emphasize creativity/innovation (27%) at almost double the executive rate (15%). Best practice: role-aligned evaluation frameworks linking individual work to organizational outcomes.",
+      links:["4__CatalystEvaluatingAI.pdf"] },
+    { id:"eval-framework", title:"AI evaluation framework", sub:"Governance, baselines, and learning", stripe:"stripe-amber",
+      body:"Key components: strategic integration (multi-dimensional metrics, clear before/after baselines), human-centered focus (employee experience metrics, feedback channels), continuous learning (regular evaluations, transparent result sharing), role-aligned metrics. Organizations with comprehensive evaluation approaches are 1.3× more likely to report positive business outcomes.",
+      links:["4__CatalystEvaluatingAI.pdf"] },
+    { id:"human-experience", title:"Human experience of AI", sub:"Employee wellbeing as a metric", stripe:"stripe-amber",
+      body:"Employee experience metrics are 5.6 percentage points more common in successful AI implementations. Specific metrics: satisfaction with work experience, stress levels, engagement, and focus time. Successful organizations track whether employees are 'less stressed and more engaged.' Customer impact measurements are 2.0 percentage points more prevalent in successful organizations.",
+      links:["4__CatalystEvaluatingAI.pdf","Catalyst10WorkplaceConditionsforIndividualAIAdoption.pdf"] },
+  ],
+  roles: [
+    { id:"sponsor", title:"Primary sponsor", sub:"Active and visible participation", stripe:"stripe-blue",
+      body:"The top driver of change success across Prosci research. Sponsors must: authorize resources and scope, clearly explain the business reason, be active and visible throughout, build a sponsorship coalition, communicate directly with impacted employees, and reinforce by celebrating successes. 79% of respondents with extremely effective sponsorship met or exceeded objectives.",
+      links:["Best_Practice_Insights_Summary.pdf","ReferenceAIAdoptionABCs02_22_25.pdf","CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"coalition", title:"Sponsorship coalition", sub:"Network of reinforcing leaders", stripe:"stripe-blue",
+      body:"A coalition extends sponsorship reach across the organization. For AI adoption, mid-level managers are crucial allies — they translate executive directives into frontline reality. The NorPine case shows that when coalition members aren't fully bought in, adoption is fragmented. Building the coalition requires role-specific enablement and joint ownership of decisions.",
+      links:["ReferenceAIAdoptionABCs02_22_25.pdf","CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"people-managers", title:"People managers", sub:"Coaches, advocates, and communicators", stripe:"stripe-blue",
+      body:"Five critical manager roles in change: communicator, liaison, advocate, resistance manager, and coach. Most common mistakes: role abdication, communication failures, failing to support staff, being ill-prepared, and resisting the change themselves. Only 35% of respondents prepare managers adequately. In AI deployments, managers must personally develop AI proficiency before they can coach their teams.",
+      links:["Best_Practice_Insights_Summary.pdf","CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"change-agents", title:"Change agent network", sub:"Peer champions and bridges", stripe:"stripe-blue",
+      body:"A formal network of representatives from all impacted groups with varying AI literacy levels. In NorPine, the network had a waitlist — indicating high demand. Agents serve as bridges between leadership and frontline employees, distributing tips/tricks daily, running Lunch-and-Learns, and gathering ground-level feedback. Having both AI enthusiasts and skeptics in the network builds credibility.",
+      links:["CaseStudyNorPineCMPAIEN02.pdf","ReferenceAIAdoptionABCs02_22_25.pdf"] },
+    { id:"change-practitioner", title:"Change practitioner", sub:"Structured methodology application", stripe:"stripe-blue",
+      body:"The change practitioner leads the overall change management strategy. Key activities: PCT assessments, ADKAR blueprints, developing four core plans (Sponsor, People Manager, Communication, Training), monitoring adoption through ADKAR surveys, and adapting actions based on results. Timing is critical — joining the project late requires building credibility quickly.",
+      links:["HandoutProsciMethodologyEN01.pdf","CaseStudyNorPineCMPAIEN02.pdf"] },
+    { id:"ai-champions", title:"AI champions & advocates", sub:"Long-term sustainment roles", stripe:"stripe-blue",
+      body:"In Phase 3 (Sustain Outcomes), select AI Champions within each business unit serve as liaisons between teams and leadership. Distinct from the change agent network — AI Champions are a permanent, role-embedded function. Responsibilities: troubleshooting, AI proficiency benchmarking, celebrating top adopters, and feeding insights back into continuous improvement.",
+      links:["CaseStudyNorPineCMPAIEN02.pdf"] },
+  ]
+};
+
+let activeId = null;
+
+function buildSection(containerId, items) {
+  const el = document.getElementById(containerId);
+  items.forEach(n => {
+    const card = document.createElement("div");
+    card.className = `card ${n.stripe}`;
+    card.id = `card-${n.id}`;
+    card.innerHTML = `<div class="card-title">${n.title}</div><div class="card-sub">${n.sub}</div>`;
+    card.addEventListener("click", () => toggle(n));
+    el.appendChild(card);
+  });
+}
+
+function toggle(n) {
+  const panel = document.getElementById("detail");
+  const prevCard = activeId ? document.getElementById(`card-${activeId}`) : null;
+  if (activeId === n.id) {
+    panel.classList.remove("open");
+    if (prevCard) prevCard.classList.remove("active");
+    activeId = null;
+    return;
+  }
+  if (prevCard) prevCard.classList.remove("active");
+  const card = document.getElementById(`card-${n.id}`);
+  card.classList.add("active");
+  activeId = n.id;
+  document.getElementById("detail-title").textContent = n.title;
+  document.getElementById("detail-body").textContent = n.body;
+  const pillsEl = document.getElementById("detail-pills");
+  pillsEl.innerHTML = "";
+  (n.links || []).forEach(l => {
+    const pill = document.createElement("span");
+    pill.className = "pill";
+    pill.textContent = l;
+    pillsEl.appendChild(pill);
+  });
+  panel.classList.add("open");
+  setTimeout(() => panel.scrollIntoView({ behavior: "smooth", block: "nearest" }), 60);
+}
+
+buildSection("frameworks", nodes.frameworks);
+buildSection("ai-adoption", nodes["ai-adoption"]);
+buildSection("people", nodes.people);
+buildSection("measurement", nodes.measurement);
+buildSection("roles", nodes.roles);
+</script>
+</body>
+</html>
